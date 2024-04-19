@@ -1,12 +1,6 @@
 'use client';
+import WidgetProps from "@/app/types/WidgetProps";
 import { useDraggable } from "@dnd-kit/core"
-import { CSS } from "@dnd-kit/utilities";
-
-type WidgetProps = {
-    id: string,
-    size: 'small' | 'medium' | 'large',
-    content: string
-}
 
 const sizeClasses: { [key: string]: string } = {
     small: 'col-span-3 row-span-1',
@@ -14,21 +8,23 @@ const sizeClasses: { [key: string]: string } = {
     large: 'col-span-3 row-span-4'
 }
 
-const Widget = ({ id, size, content }: WidgetProps) => {
+const Widget = ({ id, size, children }: WidgetProps) => {
     
     const { attributes, listeners, setNodeRef, transform } = useDraggable({ id })
-    const style = {
-        transform: CSS.Translate.toString(transform)
+    const style: React.CSSProperties = {
+        // position: "absolute",
+        // left: x,
+        // top: y,
     }
     return (
-        <div 
-            className={`bg-red-500 p-4 shadow-lg rounded-lg ${sizeClasses[size]}`}
+        <div
+            className={`border-solid border-2 border-red-500 rounded-lg ${sizeClasses[size]}`}
             ref={setNodeRef}
             style={style}
             {...listeners}
             {...attributes}
         >
-            {content}
+            {children}
         </div>
     )
 }
